@@ -1,3 +1,4 @@
+import 'package:bday/services/storage_service.dart';
 import 'package:bday/theme/theme.dart';
 import 'package:bday/widgets/import_export_modal.dart';
 import 'package:flutter/material.dart';
@@ -32,12 +33,40 @@ class BDayHomePage extends StatefulWidget {
 }
 
 class BDayHomePageState extends State<BDayHomePage> {
+  SortOption _selectedSortOption = SortOption.byDaysLeft;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("BDay List"),
         actions: [
+          PopupMenuButton<SortOption>(
+            icon: const Icon(Icons.sort),
+            onSelected: (SortOption result) {
+              setState(() {
+                _selectedSortOption = result;
+              });
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<SortOption>>[
+              const PopupMenuItem<SortOption>(
+                value: SortOption.byName,
+                child: Text('By Name'),
+              ),
+              const PopupMenuItem<SortOption>(
+                value: SortOption.byDate,
+                child: Text('By Date'),
+              ),
+              const PopupMenuItem<SortOption>(
+                value: SortOption.byAge,
+                child: Text('By Age'),
+              ),
+              const PopupMenuItem<SortOption>(
+                value: SortOption.byDaysLeft,
+                child: Text('By Days Left'),
+              ),
+            ],
+          ),
           IconButton(
             icon: const Icon(Icons.import_export),
             onPressed: () {
@@ -46,7 +75,7 @@ class BDayHomePageState extends State<BDayHomePage> {
           ),
         ],
       ),
-      body: const BDayList(),
+      body: BDayList(sortBy: _selectedSortOption),
     );
   }
 

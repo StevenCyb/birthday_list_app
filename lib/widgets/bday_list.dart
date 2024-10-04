@@ -7,7 +7,9 @@ import '../models/bday_record.dart';
 import 'add_entry_modal.dart';
 
 class BDayList extends StatefulWidget {
-  const BDayList({super.key});
+  final SortOption sortBy;
+
+  const BDayList({super.key, this.sortBy = SortOption.byName});
 
   @override
   BDayListState createState() => BDayListState();
@@ -17,7 +19,7 @@ class BDayListState extends State<BDayList> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<BDayRecord>>(
-      future: context.watch<StorageService>().list(),
+      future: context.watch<StorageService>().list(sortBy: widget.sortBy),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());

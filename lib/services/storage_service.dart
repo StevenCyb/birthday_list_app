@@ -4,6 +4,8 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '../models/bday_record.dart';
 
+enum SortOption { byName, byDate, byAge, byDaysLeft }
+
 Future<Database> _initDB() async {
   if (Platform.isAndroid || Platform.isIOS) {
     return openDatabase(
@@ -34,14 +36,28 @@ class StorageService extends ChangeNotifier {
     db = await _initDB();
   }
 
-  Future<List<BDayRecord>> list() async {
+  Future<List<BDayRecord>> list({SortOption sortBy = SortOption.byName}) async {
     final List<Map<String, dynamic>> records = await db.query("bday");
     List<BDayRecord> bdayRecords =
         await Future.wait(records.map((record) async {
       return BDayRecord.fromMap(record);
     }).toList());
 
-    bdayRecords.sort((a, b) => a.daysTillBday().compareTo(b.daysTillBday()));
+    switch (sortBy) {
+      case SortOption.byName:
+        bdayRecords.sort((a, b) => a.name.compareTo(b.name));
+        break;
+      case SortOption.byDate:
+        bdayRecords.sort((a, b) => a.date.compareTo(b.date));
+        break;
+      case SortOption.byAge:
+        bdayRecords.sort((a, b) => a.age().compareTo(b.age()));
+        break;
+      case SortOption.byDaysLeft:
+        bdayRecords
+            .sort((a, b) => a.daysTillBday().compareTo(b.daysTillBday()));
+        break;
+    }
 
     return bdayRecords;
   }
