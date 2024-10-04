@@ -11,6 +11,7 @@ This App is aimed to help people to remember birthdays.
 | Android  | ✅        |
 | Windows  | ❌        |
 | macOS    | ❌        |
+| Linux    | ❌        |
 
 <style>
   table {
