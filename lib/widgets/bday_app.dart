@@ -33,14 +33,48 @@ class BDayHomePage extends StatefulWidget {
 }
 
 class BDayHomePageState extends State<BDayHomePage> {
-  SortOption _selectedSortOption = SortOption.byDaysLeft;
+  final TextEditingController _searchController = TextEditingController();
+  FocusNode _searchFocusNode = FocusNode();
+  SortOption _selectedSortOption = SortOption.byName;
+  String filterQuery = '';
+  bool _isSearchBarExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("BDay List"),
+        title: _isSearchBarExpanded
+            ? TextField(
+                controller: _searchController,
+                focusNode: _searchFocusNode,
+                decoration: const InputDecoration(
+                  hintText: 'Search by name...',
+                  border: InputBorder.none,
+                  prefixIcon: Icon(Icons.search),
+                ),
+                onChanged: (value) {
+                  setState(() {
+                    filterQuery = value;
+                  });
+                },
+              )
+            : const Text("BDay List"),
         actions: [
+          IconButton(
+            icon: Icon(_isSearchBarExpanded ? Icons.close : Icons.search),
+            onPressed: () {
+              setState(() {
+                _isSearchBarExpanded = !_isSearchBarExpanded;
+                if (!_isSearchBarExpanded) {
+                  filterQuery = '';
+                  _searchController.clear();
+                  _searchFocusNode.unfocus();
+                } else {
+                  _searchFocusNode.requestFocus();
+                }
+              });
+            },
+          ),
           PopupMenuButton<SortOption>(
             icon: const Icon(Icons.sort),
             onSelected: (SortOption result) {
@@ -75,7 +109,10 @@ class BDayHomePageState extends State<BDayHomePage> {
           ),
         ],
       ),
-      body: BDayList(sortBy: _selectedSortOption),
+      body: BDayList(
+        sortOption: _selectedSortOption,
+        filterQuery: filterQuery,
+      ),
     );
   }
 

@@ -36,12 +36,20 @@ class StorageService extends ChangeNotifier {
     db = await _initDB();
   }
 
-  Future<List<BDayRecord>> list({SortOption sortBy = SortOption.byName}) async {
+  Future<List<BDayRecord>> list(
+      {SortOption sortBy = SortOption.byName, String filter = ""}) async {
     final List<Map<String, dynamic>> records = await db.query("bday");
     List<BDayRecord> bdayRecords =
         await Future.wait(records.map((record) async {
       return BDayRecord.fromMap(record);
     }).toList());
+
+    if (filter.isNotEmpty) {
+      filter = filter.toLowerCase();
+      bdayRecords = bdayRecords
+          .where((record) => record.name.toLowerCase().contains(filter))
+          .toList();
+    }
 
     switch (sortBy) {
       case SortOption.byName:
