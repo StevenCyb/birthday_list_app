@@ -33,7 +33,7 @@ class EditEntryModal extends StatefulWidget {
 }
 
 class EditEntryModalState extends State<EditEntryModal> {
-  DateTime _bday = DateTime.now();
+  DateTime? _bday;
   final TextEditingController _nameFieldController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   File? _pickedImage;
@@ -51,8 +51,8 @@ class EditEntryModalState extends State<EditEntryModal> {
     }
 
     var date = widget.editRecord?.date ?? DateTime.now();
-    if (_bday != DateTime.now()) {
-      date = _bday;
+    if (_bday != null) {
+      date = _bday!;
     }
 
     setState(() {
@@ -197,7 +197,7 @@ class EditEntryModalState extends State<EditEntryModal> {
                                       .add(
                                         BDayRecord(
                                           name: _nameFieldController.text,
-                                          date: _bday,
+                                          date: _bday!,
                                           image: _pickedImage,
                                         ),
                                       )
