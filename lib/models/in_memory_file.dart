@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 class InMemoryFile implements File {
+  @override
   final String path;
   final Uint8List _data;
   final DateTime _date = DateTime.now();
