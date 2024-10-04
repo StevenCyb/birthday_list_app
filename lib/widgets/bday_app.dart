@@ -34,7 +34,7 @@ class BDayHomePage extends StatefulWidget {
 
 class BDayHomePageState extends State<BDayHomePage> {
   final TextEditingController _searchController = TextEditingController();
-  FocusNode _searchFocusNode = FocusNode();
+  final FocusNode _searchFocusNode = FocusNode();
   SortOption _selectedSortOption = SortOption.byName;
   String filterQuery = '';
   bool _isSearchBarExpanded = false;
