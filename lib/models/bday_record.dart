@@ -34,6 +34,16 @@ class BDayRecord {
     return difference.inDays;
   }
 
+  int age() {
+    DateTime now = DateTime.now();
+    int age = now.year - date.year;
+    if (now.month < date.month ||
+        (now.month == date.month && now.day < date.day)) {
+      age--;
+    }
+    return age;
+  }
+
   Map<String, dynamic> toMap() {
     return {
       "name": name,
@@ -89,9 +99,7 @@ class BDayRecord {
   static _generateRandomString(int i) {
     const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
     final random = Random.secure();
-    return List.generate(
-      i,
-      (index) => chars[random.nextInt(chars.length)]
-    ).join();
+    return List.generate(i, (index) => chars[random.nextInt(chars.length)])
+        .join();
   }
 }

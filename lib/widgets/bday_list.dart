@@ -70,11 +70,11 @@ class BDayListState extends State<BDayList> {
                 children: [
                   Text(
                     current.name,
-                    style: const TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 19),
                   ),
                   Text(
-                    current.bornString(),
-                    style: const TextStyle(fontSize: 13),
+                    "${current.bornString()} - ${current.age()} Years",
+                    style: const TextStyle(fontSize: 12),
                   ),
                 ],
               ),
@@ -87,7 +87,7 @@ class BDayListState extends State<BDayList> {
                       ? "Tomorrow"
                       : "${current.daysTillBday()} days",
               style: const TextStyle(
-                fontSize: 25,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
