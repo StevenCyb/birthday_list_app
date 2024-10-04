@@ -40,11 +40,26 @@ class EditEntryModalState extends State<EditEntryModal> {
   bool _isNameValid = false;
 
   void _resetImage() {
+    var name = widget.editRecord?.name ?? '';
+    if (_nameFieldController.text.isNotEmpty) {
+      name = _nameFieldController.text;
+    }
+
+    var image = widget.editRecord?.image;
+    if (_pickedImage != null) {
+      image = _pickedImage;
+    }
+
+    var date = widget.editRecord?.date ?? DateTime.now();
+    if (_bday != DateTime.now()) {
+      date = _bday;
+    }
+
     setState(() {
-      _nameFieldController.text = widget.editRecord?.name ?? '';
-      _bday = widget.editRecord?.date ?? DateTime.now();
-      _isNameValid = _nameFieldController.text.length >= 3;
-      _pickedImage = widget.editRecord?.image;
+      _nameFieldController.text = name;
+      _bday = date;
+      _isNameValid = name.length >= 3;
+      _pickedImage = image;
     });
   }
 
@@ -119,6 +134,8 @@ class EditEntryModalState extends State<EditEntryModal> {
                       GestureDetector(
                         onTap: () async {
                           final XFile? image = await _picker.pickImage(
+                              maxHeight: 100,
+                              maxWidth: 100,
                               source: ImageSource.gallery);
                           if (image != null) {
                             setModalState(() {
@@ -158,9 +175,26 @@ class EditEntryModalState extends State<EditEntryModal> {
                         OutlinedButton(
                           onPressed: _isNameValid
                               ? () {
+                                  if (widget.editRecord != null) {
+                                    context
+                                        .read<StorageService>()
+                                        .remove(widget.editRecord!.name)
+                                        .catchError(
+                                      (e) {
+                                        if (context.mounted) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(e.message),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    );
+                                  }
                                   context
                                       .read<StorageService>()
-                                      .replace(
+                                      .add(
                                         BDayRecord(
                                           name: _nameFieldController.text,
                                           date: _bday,
