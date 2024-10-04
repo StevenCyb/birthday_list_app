@@ -10,9 +10,15 @@ import 'date_picker.dart';
 class EditDialog {
   static void show(BuildContext context, {BDayRecord? record}) {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
-        return EditEntryModal(editRecord: record);
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: EditEntryModal(editRecord: record),
+        );
       },
     );
   }
