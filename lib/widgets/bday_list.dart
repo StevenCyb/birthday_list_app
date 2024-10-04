@@ -56,9 +56,7 @@ class BDayListState extends State<BDayList> {
 
   Widget _buildListItem(BuildContext context, BDayRecord current) {
     return GestureDetector(
-      onLongPress: () {
-        EditDialog.show(context, record: current);
-      },
+      onLongPress: () => EditDialog.show(context, record: current),
       child: ListTile(
         title: Row(
           children: [
