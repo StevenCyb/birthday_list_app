@@ -38,6 +38,8 @@ dependencies:
   sqflite: ^2.3.3+2
   flutter_file_dialog: ^3.0.2
   flutter_launcher_icons: ^0.14.1
+  workmanager: ^0.5.2
+  flutter_local_notifications: ^17.2.3
 
 dev_dependencies:
   flutter_test:
