@@ -1,10 +1,10 @@
+import 'package:bday/models/bday_record.dart';
 import 'package:bday/services/storage_service.dart';
 import 'package:bday/theme/assets.dart';
+import 'package:bday/widgets/add_entry_modal.dart';
 import 'package:bday/widgets/edit_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/bday_record.dart';
-import 'add_entry_modal.dart';
 
 class BDayList extends StatefulWidget {
   final SortOption sortOption;

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bday/models/bday_record.dart';
+import '../models/bday_record.dart';
 import 'package:bday/services/storage_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_file_dialog/flutter_file_dialog.dart';
